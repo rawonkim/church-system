@@ -81,6 +81,16 @@ Vercel 상단 메뉴의 `Storage`나 `Build Command` 설정에서 마이그레�
 
 ---
 
+## 7단계: 교회 이름 수정 (선택 사항)
+지금은 "OO교회"로 되어 있습니다. 실제 교회 이름으로 바꾸려면 다음 파일들을 수정하세요.
+
+1. `src/app/layout.tsx`: 사이트 제목
+2. `src/app/login/page.tsx`: 로그인 화면
+3. `src/components/Sidebar.tsx`: 메뉴 상단 제목
+4. `src/components/DonationReceipt.tsx`: 기부금 영수증 내용
+
+수정한 후 다시 `git add .`, `git commit`, `git push` 하면 자동으로 배포됩니다!
+
 ## 🎉 완료!
 이제 Vercel이 만들어준 주소(예: `my-church.vercel.app`)로 접속하면 됩니다!
 관리자 계정은 처음에 가입하거나, DB에 직접 넣어야 할 수도 있습니다.
