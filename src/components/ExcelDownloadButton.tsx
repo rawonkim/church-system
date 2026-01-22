@@ -1,17 +1,20 @@
 'use client'
 
 import * as XLSX from 'xlsx';
-import { Download, Loader2 } from 'lucide-react';
+import { Download, Loader2, Check } from 'lucide-react';
 import { useState } from 'react';
 
 export function ExcelDownloadButton({ data }: { data: any[] }) {
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const handleDownload = async () => {
     try {
       setIsDownloading(true);
-      // Small delay to show loading state
-      await new Promise(resolve => setTimeout(resolve, 100));
+      setIsCompleted(false);
+      
+      // Small delay to ensure UI updates and browser is ready
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       // 1. Create a new workbook
       const wb = XLSX.utils.book_new();
@@ -50,7 +53,19 @@ export function ExcelDownloadButton({ data }: { data: any[] }) {
       XLSX.utils.book_append_sheet(wb, ws, "기부금명세서");
 
       // 5. Download
-      XLSX.writeFile(wb, `연말정산_기부금명세서_${new Date().toISOString().slice(0,10)}.xlsx`);
+      const fileName = `연말정산_기부금명세서_${new Date().toISOString().slice(0,10)}.xlsx`;
+      XLSX.writeFile(wb, fileName);
+      
+      // Success feedback
+      setIsCompleted(true);
+      setTimeout(() => setIsCompleted(false), 3000);
+      
+      // Alert for mobile users who might miss the download
+      // Check if mobile user agent (rough check)
+      if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        // alert(`다운로드가 완료되었습니다.\n파일 앱의 '다운로드' 폴더를 확인해주세요.\n파일명: ${fileName}`);
+      }
+
     } catch (error) {
       console.error('Excel download failed:', error);
       alert('엑셀 다운로드 중 오류가 발생했습니다.');
@@ -63,14 +78,28 @@ export function ExcelDownloadButton({ data }: { data: any[] }) {
     <button
       onClick={handleDownload}
       disabled={isDownloading}
-      className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-2xl hover:bg-green-700 transition-colors font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+      className={`flex items-center gap-2 px-4 py-2 rounded-2xl transition-all font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed text-sm ${
+        isCompleted 
+          ? 'bg-green-700 text-white' 
+          : 'bg-green-600 text-white hover:bg-green-700'
+      }`}
     >
       {isDownloading ? (
-        <Loader2 className="w-4 h-4 animate-spin" />
+        <>
+          <Loader2 className="w-4 h-4 animate-spin" />
+          <span>다운로드 중...</span>
+        </>
+      ) : isCompleted ? (
+        <>
+          <Check className="w-4 h-4" />
+          <span>완료!</span>
+        </>
       ) : (
-        <Download className="w-4 h-4" />
+        <>
+          <Download className="w-4 h-4" />
+          <span>엑셀 다운로드 (홈택스용)</span>
+        </>
       )}
-      엑셀 다운로드 (홈택스용)
     </button>
   );
 }

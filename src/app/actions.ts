@@ -474,6 +474,11 @@ export async function getTaxData() {
     }
   })
 
+  // If Admin, also ensure we get users who might have donated but we want to verify coverage
+  // But actually, getTaxData is used for "Donation Receipt" generation list.
+  // It only shows transactions. The UI groups them.
+  // If a user has NO transactions, they won't appear here.
+  
   return donations.map((d: any) => ({
     date: d.date.toISOString().split('T')[0].replace(/-/g, ''), // YYYYMMDD format
     name: d.user?.name || 'Unknown',
