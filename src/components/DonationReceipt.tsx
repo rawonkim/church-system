@@ -1,17 +1,53 @@
 'use client'
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
-import { Printer } from 'lucide-react';
+import { Printer, Download, Loader2 } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export default function DonationReceipt({ data }: { data: any }) {
   const componentRef = useRef<HTMLDivElement>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
   
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
     documentTitle: `기부금영수증_${data.user.name}_${data.year}`,
   });
+
+  const handleDownloadPDF = async () => {
+    if (!componentRef.current) return;
+    setIsDownloading(true);
+
+    try {
+      const element = componentRef.current;
+      const canvas = await html2canvas(element, {
+        scale: 2, // Higher resolution
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save(`기부금영수증_${data.user.name}_${data.year}.pdf`);
+    } catch (error) {
+      console.error('PDF generation failed:', error);
+      alert('PDF 다운로드 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   if (!data) return <div>데이터가 없습니다.</div>;
 
@@ -25,13 +61,25 @@ export default function DonationReceipt({ data }: { data: any }) {
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-3">
         <button
           onClick={() => handlePrint()}
-          className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-2xl hover:bg-slate-800 transition-colors font-medium shadow-sm"
+          className="hidden md:flex items-center gap-2 bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-xl hover:bg-slate-50 transition-colors font-medium shadow-sm"
         >
           <Printer className="w-5 h-5" />
-          PDF로 인쇄 / 다운로드
+          인쇄하기
+        </button>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={isDownloading}
+          className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-2xl hover:bg-slate-800 transition-colors font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isDownloading ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            <Download className="w-5 h-5" />
+          )}
+          PDF 다운로드
         </button>
       </div>
 
