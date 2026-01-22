@@ -109,9 +109,9 @@ export async function addTransaction(formData: FormData) {
   }
 
   revalidatePath('/ledger')
-  revalidatePath('/')
-  revalidatePath('/tax')
-  revalidatePath('/admin/audit')
+  // revalidatePath('/')  <- 홈 화면은 실시간성이 덜 중요하므로 제외
+  // revalidatePath('/tax') <- 연말정산도 1년에 한 번 보므로 제외
+  // revalidatePath('/admin/audit') <- 로그도 필요할 때만 갱신
 }
 
 export async function updateTransaction(id: string, formData: FormData) {
@@ -191,9 +191,9 @@ export async function updateTransaction(id: string, formData: FormData) {
   }
 
   revalidatePath('/ledger')
-  revalidatePath('/')
-  revalidatePath('/tax')
-  revalidatePath('/admin/audit')
+  // revalidatePath('/')
+  // revalidatePath('/tax')
+  // revalidatePath('/admin/audit')
   return { success: true }
 }
 
@@ -245,9 +245,9 @@ export async function deleteTransaction(id: string) {
   }
 
   revalidatePath('/ledger')
-  revalidatePath('/')
-  revalidatePath('/tax')
-  revalidatePath('/admin/audit')
+  // revalidatePath('/')
+  // revalidatePath('/tax')
+  // revalidatePath('/admin/audit')
   return { success: true }
 }
 
@@ -309,9 +309,9 @@ export async function addBulkTransactions(formData: FormData) {
   }
 
   revalidatePath('/ledger')
-  revalidatePath('/')
-  revalidatePath('/tax')
-  revalidatePath('/admin/audit')
+  // revalidatePath('/')
+  // revalidatePath('/tax')
+  // revalidatePath('/admin/audit')
 }
 
 import { encrypt, decrypt } from '@/lib/utils'
