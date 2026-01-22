@@ -11,7 +11,7 @@ async function main() {
     create: {
       email: adminEmail,
       name: '관리자',
-      password: 'admin', // 실제 운영 시에는 복잡한 비밀번호 사용 권장
+      password: "admin1234", // 실제 운영 시에는 복잡한 비밀번호 사용 권장
       role: 'ADMIN',
       phoneNumber: '010-0000-0000',
       address: '서울시 강남구',
