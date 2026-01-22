@@ -92,7 +92,7 @@ export function UserList({ users }: UserListProps) {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-left">
+        <table className="w-full text-left min-w-[1000px]">
           <thead>
             <tr className="border-b border-slate-100 text-slate-500 text-sm">
               <th className="pb-3 pl-4 w-10">
@@ -103,13 +103,13 @@ export function UserList({ users }: UserListProps) {
                   className="rounded border-slate-300 text-primary focus:ring-primary"
                 />
               </th>
-              <th className="pb-3 pl-2">이름</th>
-              <th className="pb-3">이메일</th>
-              <th className="pb-3">연락처</th>
-              <th className="pb-3">주민등록번호 (마스킹)</th>
-              <th className="pb-3">등록일</th>
-              <th className="pb-3">역할</th>
-              <th className="pb-3 text-right pr-4">관리</th>
+              <th className="pb-3 pl-2 whitespace-nowrap">이름</th>
+              <th className="pb-3 whitespace-nowrap">이메일</th>
+              <th className="pb-3 whitespace-nowrap">연락처</th>
+              <th className="pb-3 whitespace-nowrap">주민등록번호 (마스킹)</th>
+              <th className="pb-3 whitespace-nowrap">등록일</th>
+              <th className="pb-3 whitespace-nowrap">역할</th>
+              <th className="pb-3 text-right pr-4 whitespace-nowrap">관리</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-50">

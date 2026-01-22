@@ -91,14 +91,14 @@ export default async function Home() {
           {isAdmin ? "최근 재정 활동" : "최근 헌금 내역"}
         </h2>
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-left min-w-[600px]">
             <thead>
               <tr className="border-b border-slate-100 text-slate-500 text-sm">
-                <th className="pb-3 pl-4">날짜</th>
-                <th className="pb-3">구분</th>
-                <th className="pb-3">카테고리</th>
-                <th className="pb-3">내용</th>
-                <th className="pb-3 text-right pr-4">금액</th>
+                <th className="pb-3 pl-4 whitespace-nowrap">날짜</th>
+                <th className="pb-3 whitespace-nowrap">구분</th>
+                <th className="pb-3 whitespace-nowrap">카테고리</th>
+                <th className="pb-3 min-w-[150px]">내용</th>
+                <th className="pb-3 text-right pr-4 whitespace-nowrap">금액</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">

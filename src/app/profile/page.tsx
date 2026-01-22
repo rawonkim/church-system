@@ -11,7 +11,7 @@ export default async function ProfilePage() {
   return (
     <div className="flex min-h-screen bg-[#FAFAFA]">
       <Sidebar user={session} />
-      <div className="flex-1 ml-64 p-12">
+      <div className="flex-1 lg:ml-64 p-4 lg:p-12 pt-20 lg:pt-12">
         <div className="max-w-2xl mx-auto space-y-8">
           <div>
             <h1 className="text-3xl font-bold text-slate-900 mb-2">내 정보</h1>

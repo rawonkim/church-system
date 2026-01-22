@@ -33,13 +33,13 @@ export default async function AuditLogPage() {
 
       <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-left min-w-[800px]">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-100 text-slate-500 text-sm">
-                <th className="py-4 pl-6 w-[200px]">일시</th>
-                <th className="py-4 w-[120px]">작업자</th>
-                <th className="py-4 w-[100px]">종류</th>
-                <th className="py-4 pr-6">상세 내용</th>
+                <th className="py-4 pl-6 w-[200px] whitespace-nowrap">일시</th>
+                <th className="py-4 w-[120px] whitespace-nowrap">작업자</th>
+                <th className="py-4 w-[100px] whitespace-nowrap">종류</th>
+                <th className="py-4 pr-6 min-w-[300px]">상세 내용</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
