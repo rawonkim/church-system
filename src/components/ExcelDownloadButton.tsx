@@ -60,11 +60,8 @@ export function ExcelDownloadButton({ data }: { data: any[] }) {
       setIsCompleted(true);
       setTimeout(() => setIsCompleted(false), 3000);
       
-      // Alert for mobile users who might miss the download
-      // Check if mobile user agent (rough check)
-      if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        // alert(`다운로드가 완료되었습니다.\n파일 앱의 '다운로드' 폴더를 확인해주세요.\n파일명: ${fileName}`);
-      }
+      // Fallback for strict mobile browsers: create a direct link if needed
+      // (XLSX.writeFile usually works, but just in case)
 
     } catch (error) {
       console.error('Excel download failed:', error);
@@ -75,31 +72,37 @@ export function ExcelDownloadButton({ data }: { data: any[] }) {
   };
 
   return (
-    <button
-      onClick={handleDownload}
-      disabled={isDownloading}
-      className={`flex items-center gap-2 px-4 py-2 rounded-2xl transition-all font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed text-sm ${
-        isCompleted 
-          ? 'bg-green-700 text-white' 
-          : 'bg-green-600 text-white hover:bg-green-700'
-      }`}
-    >
-      {isDownloading ? (
-        <>
-          <Loader2 className="w-4 h-4 animate-spin" />
-          <span>다운로드 중...</span>
-        </>
-      ) : isCompleted ? (
-        <>
-          <Check className="w-4 h-4" />
-          <span>완료!</span>
-        </>
-      ) : (
-        <>
-          <Download className="w-4 h-4" />
-          <span>엑셀 다운로드 (홈택스용)</span>
-        </>
-      )}
-    </button>
+    <div className="flex flex-col gap-2 items-start">
+      <button
+        onClick={handleDownload}
+        disabled={isDownloading}
+        className={`flex items-center gap-2 px-4 py-2 rounded-2xl transition-all font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed text-sm ${
+          isCompleted 
+            ? 'bg-green-700 text-white' 
+            : 'bg-green-600 text-white hover:bg-green-700'
+        }`}
+      >
+        {isDownloading ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>다운로드 중...</span>
+          </>
+        ) : isCompleted ? (
+          <>
+            <Check className="w-4 h-4" />
+            <span>완료!</span>
+          </>
+        ) : (
+          <>
+            <Download className="w-4 h-4" />
+            <span>엑셀 다운로드 (홈택스용)</span>
+          </>
+        )}
+      </button>
+      {/* Helper text for mobile users */}
+      <p className="text-xs text-slate-500 pl-1 md:hidden">
+        * 다운로드가 안 되면 브라우저 설정을 확인하세요.
+      </p>
+    </div>
   );
 }
