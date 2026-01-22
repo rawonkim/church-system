@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // 배포 시에는 아래 'sqlite'를 'postgresql'로 변경해야 합니다!
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?  @unique
+  role      String   @default("MEMBER") // ADMIN, MEMBER
+  password  String?  // For login
+  residentId String? // For tax purposes (Resident Registration Number)
+  address   String?
+  phoneNumber String? // For KakaoTalk notifications
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  transactions Transaction[]
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  amount      Int
+  type        String   // INCOME, EXPENSE
+  category    String   // Tithe, Sunday Offering, Maintenance, etc.
+  description String?
+  date        DateTime @default(now())
+  
+  // Link to user if it's a donation/offering from a specific member
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String   // CREATE, UPDATE, DELETE
+  entity    String   // User, Transaction
+  entityId  String
+  details   String?  // Changed fields or description
+  performedBy String // Admin ID or Name
+  createdAt DateTime @default(now())
+}
