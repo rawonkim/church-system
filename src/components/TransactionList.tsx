@@ -116,16 +116,16 @@ export function TransactionList({ transactions, users, isAdmin, initialFilter, t
       {/* Filter Panel (Collapsible) - Removed old implementation */}
       
       <div className="overflow-x-auto p-2">
-        <table className="w-full text-left">
+        <table className="w-full text-left min-w-[800px]">
           <thead>
             <tr className="border-b border-slate-100 text-slate-500 text-sm">
-              <th className="pb-3 pl-4 pr-4 w-[150px] min-w-[150px]">날짜</th>
-              <th className="pb-3 pr-4 w-[90px] min-w-[90px]">구분</th>
-              <th className="pb-3 pr-4 w-[110px] min-w-[110px]">카테고리</th>
-              <th className="pb-3 pr-4 w-[110px] min-w-[110px]">교인</th>
-              <th className="pb-3 min-w-[150px]">내용</th>
-              <th className="pb-3 text-right pr-4 w-[120px] min-w-[120px]">금액</th>
-              {isAdmin && <th className="pb-3 text-right pr-4 w-[100px] min-w-[100px]">관리</th>}
+              <th className="pb-3 pl-4 pr-4 w-[120px] whitespace-nowrap">날짜</th>
+              <th className="pb-3 pr-4 w-[80px] whitespace-nowrap">구분</th>
+              <th className="pb-3 pr-4 w-[120px] whitespace-nowrap">카테고리</th>
+              <th className="pb-3 pr-4 w-[120px] whitespace-nowrap">교인</th>
+              <th className="pb-3 min-w-[200px]">내용</th>
+              <th className="pb-3 text-right pr-4 w-[120px] whitespace-nowrap">금액</th>
+              {isAdmin && <th className="pb-3 text-right pr-4 w-[100px] whitespace-nowrap">관리</th>}
             </tr>
             {isFilterOpen && (
               <tr className="bg-slate-50/50">
