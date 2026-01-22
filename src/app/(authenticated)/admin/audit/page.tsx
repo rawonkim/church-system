@@ -39,7 +39,6 @@ export default async function AuditLogPage() {
                 <th className="py-4 pl-6 w-[200px]">일시</th>
                 <th className="py-4 w-[120px]">작업자</th>
                 <th className="py-4 w-[100px]">종류</th>
-                <th className="py-4 w-[120px]">대상</th>
                 <th className="py-4 pr-6">상세 내용</th>
               </tr>
             </thead>
@@ -63,9 +62,6 @@ export default async function AuditLogPage() {
                       {ACTION_MAP[log.action] || log.action}
                     </span>
                   </td>
-                  <td className="py-4 text-slate-600 text-sm font-medium">
-                    {ENTITY_MAP[log.entity] || log.entity}
-                  </td>
                   <td className="py-4 pr-6 text-slate-600 text-sm break-all">
                     {log.details}
                   </td>
@@ -73,7 +69,7 @@ export default async function AuditLogPage() {
               ))}
               {logs.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="py-12 text-center text-slate-400">
+                  <td colSpan={4} className="py-12 text-center text-slate-400">
                     <Activity className="w-12 h-12 mx-auto mb-3 opacity-20" />
                     <p>기록된 로그가 없습니다.</p>
                   </td>
