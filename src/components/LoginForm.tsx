@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { login } from '@/app/actions'
+import { Loader2 } from 'lucide-react'
 
 export default function LoginForm() {
   const [error, setError] = useState('')
@@ -10,6 +11,7 @@ export default function LoginForm() {
   const router = useRouter()
 
   async function handleSubmit(formData: FormData) {
+    if (loading) return // Prevent multiple submissions
     setLoading(true)
     setError('')
     
@@ -21,6 +23,7 @@ export default function LoginForm() {
         setLoading(false)
       } else {
         // Login success
+        // Don't set loading to false here to prevent flash while redirecting
         router.refresh() // Update server components with new session
         router.push('/')
       }
@@ -40,7 +43,8 @@ export default function LoginForm() {
           name="email"
           type="email"
           required
-          className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+          disabled={loading}
+          className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all disabled:opacity-50 disabled:bg-slate-50"
           placeholder="admin@church.com"
         />
       </div>
@@ -53,23 +57,31 @@ export default function LoginForm() {
           name="password"
           type="password"
           required
-          className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+          disabled={loading}
+          className="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all disabled:opacity-50 disabled:bg-slate-50"
           placeholder="••••••••"
         />
       </div>
 
       {error && (
-        <div className="text-red-500 text-sm bg-red-50 p-3 rounded-lg">
-          {error}
+        <div className="text-red-500 text-sm bg-red-50 p-3 rounded-lg flex items-center gap-2 animate-pulse">
+          <span className="font-bold">!</span> {error}
         </div>
       )}
 
       <Button
         type="submit"
         disabled={loading}
-        className="w-full bg-slate-900 text-white hover:bg-slate-800"
+        className="w-full bg-slate-900 text-white hover:bg-slate-800 flex items-center justify-center gap-2 h-11"
       >
-        {loading ? '로그인 중...' : '로그인'}
+        {loading ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>로그인 중...</span>
+          </>
+        ) : (
+          '로그인'
+        )}
       </Button>
     </form>
   )
